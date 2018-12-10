@@ -1,10 +1,10 @@
 
 package com.udacity.gradle.builditbigger;
 
-import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 import org.junit.Assert;
 import org.junit.Rule;
@@ -22,16 +22,29 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class EndpointsAsyncTaskTestUnit {
-    String TAG = EndpointsAsyncTaskTest.class.getSimpleName();
 
+    private static final String LOG_TAG = "AsyncTest";
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
 
     @Test
     public void testJokeIsNotEmpty() throws Exception {
-        EndpointsAsyncTaskTest asyncTaskTest = new EndpointsAsyncTaskTest();
-        asyncTaskTest.execute(InstrumentationRegistry.getContext());
-        String joke = asyncTaskTest.get(5, TimeUnit.SECONDS);
+
+        JokeAsyncTask.AsyncListener listener = new JokeAsyncTask.AsyncListener() {
+            @Override
+            public void changeProgressBarStatus(boolean isChanged) {
+
+            }
+
+            @Override
+            public void startJokeActivity(String result) {
+
+            }
+        };
+        JokeAsyncTask jokeAsyncTask = new JokeAsyncTask(listener);
+        jokeAsyncTask.execute();
+        String joke = jokeAsyncTask.get(10, TimeUnit.SECONDS);
+        Log.d(LOG_TAG, "Retrieved a non-empty string successfully: " + joke);
         Assert.assertTrue(!joke.equals(""));
     }
 

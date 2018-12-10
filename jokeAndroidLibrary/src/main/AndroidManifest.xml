@@ -2,11 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.android.jokeAndroidLibrary">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-
     <application
         android:usesCleartextTraffic="true">
-        <activity android:name="com.example.android.jokeAndroidLibrary.JokeActivity"></activity>
+        <activity android:name="com.example.android.jokeAndroidLibrary.JokeActivity" />
     </application>
 
 </manifest>

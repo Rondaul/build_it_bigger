@@ -7,7 +7,8 @@ import android.widget.TextView;
 
 public class JokeActivity extends AppCompatActivity {
 
-    private TextView tv_joke;
+    private static final String EXTRA_JOKE = "extra_joke";
+    private TextView mJokeTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,17 +19,17 @@ public class JokeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        tv_joke = findViewById(R.id.tv_joke);
+        mJokeTextView = findViewById(R.id.tv_joke);
         extractDataFromBundle();
     }
 
     private void extractDataFromBundle() {
         Intent intent = getIntent();
-        if (intent != null && intent.hasExtra(getString(R.string.key_joke_pass))) {
+        if (intent != null && intent.hasExtra(EXTRA_JOKE)) {
             Bundle data = intent.getExtras();
             if (data != null) {
-                String joke = data.getString(getString(R.string.key_joke_pass));
-                tv_joke.setText(joke);
+                String joke = data.getString(EXTRA_JOKE);
+                mJokeTextView.setText(joke);
             }
         }
     }

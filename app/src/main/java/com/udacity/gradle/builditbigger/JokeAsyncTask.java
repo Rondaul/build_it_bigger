@@ -12,7 +12,7 @@ import com.udacity.gradle.builditbigger.backend.jokeApi.JokeApi;
 import java.io.IOException;
 
 class JokeAsyncTask extends AsyncTask<Void, Void, String> {
-    private static JokeApi myJokeApi = null;
+    private static JokeApi sJokeApi = null;
     private AsyncListener listener;
 
     JokeAsyncTask(AsyncListener listener) {
@@ -21,6 +21,7 @@ class JokeAsyncTask extends AsyncTask<Void, Void, String> {
 
     interface AsyncListener {
         void changeProgressBarStatus(boolean isChanged);
+
         void startJokeActivity(String result);
     }
 
@@ -32,7 +33,7 @@ class JokeAsyncTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
-        if(myJokeApi == null) {
+        if (sJokeApi == null) {
             JokeApi.Builder builder = new JokeApi.Builder(
                     AndroidHttp.newCompatibleTransport()
                     , new AndroidJsonFactory(), null
@@ -45,16 +46,15 @@ class JokeAsyncTask extends AsyncTask<Void, Void, String> {
                                 }
                             }
                     );
-            myJokeApi = builder.build();
+            sJokeApi = builder.build();
         }
         try {
-            return myJokeApi.getJokeFromBackend().execute().getData();
+            return sJokeApi.getJokeFromBackend().execute().getData();
         } catch (IOException e) {
             Log.d("myTag", e.getMessage());
             return "";
         }
     }
-
 
 
     @Override
